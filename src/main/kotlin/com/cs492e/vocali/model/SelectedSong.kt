@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference
 import javax.persistence.*
 
 @Entity
+@Table(name="selected_song", schema = "public")
 class SelectedSong {
 
     @Id
