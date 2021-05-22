@@ -1,21 +1,26 @@
 package com.cs492e.vocali.controller
 
+import com.cs492e.vocali.model.*
 import com.cs492e.vocali.repository.UserRepository
-import com.cs492e.vocali.model.SelectedSong
-import com.cs492e.vocali.model.User
 import com.cs492e.vocali.repository.SelectedSongRepository
+import com.cs492e.vocali.repository.SongRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/users")
 class UserController {
 
     @Autowired
     private lateinit var userRepository: UserRepository
     @Autowired
     private lateinit var selectedSongRepository: SelectedSongRepository
+    @Autowired
+    private lateinit var songRepository: SongRepository
 
     @PostMapping
     @ResponseBody
@@ -27,31 +32,70 @@ class UserController {
         }
     }
 
+    @GetMapping("/{userId}")
+    @ResponseBody
+    fun getUserById(@PathVariable userId: Int): User {
+        return userRepository.findByIdOrNull(userId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot find user")
+    }
+
     @GetMapping
     @ResponseBody
     fun getAllUsers(): Iterable<User> = userRepository.findAll()
 
-    @PostMapping("/{userId}/selected_songs")
+    @PutMapping("/{userId}")
     @ResponseBody
-    fun addSelectedSongs(@PathVariable userId: Int, @RequestBody songs: List<SelectedSong>): String {
+    fun updateUser(@PathVariable userId: Int,
+                   @RequestBody request: UserRequest): User {
+        val user = userRepository.findByIdOrNull(userId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot find user")
+
+        request.run {
+            name?.let { user.name = it }
+            minPitch?.let { user.minPitch = it }
+            maxPitch?.let { user.maxPitch = it }
+        }
+        userRepository.save(user)
+
+        return user
+    }
+
+    @PostMapping("/songs")
+    @ResponseBody
+    fun addSong(@RequestBody song: Song): String {
+        songRepository.save(song)
+        return "Success"
+    }
+
+    @PostMapping("/{userId}/songs/select")
+    @ResponseBody
+    fun addSelectedSongs(@PathVariable userId: Int, @RequestBody requests: List<SelectedSongRequest>): String {
         val user = userRepository.findById(userId).get()
-        songs.forEach {
+        requests.forEach { request ->
+            val song = songRepository.findByIdOrNull(request.id)
             SelectedSong().apply {
-                this.name = it.name
+                this.category = SelectedSong.Category.getCategoryFromString(request.category)
                 this.user = user
+                this.song = song
             }.run {
                 selectedSongRepository.save(this)
             }
         }
 
-
         return "Success"
     }
 
-    @GetMapping("/{userId}/selected_songs")
+    @GetMapping("/{userId}/songs/select")
     @ResponseBody
     fun getSelectedSongs(@PathVariable userId: Int): Iterable<SelectedSong> {
         val user = userRepository.findById(userId).get()
         return selectedSongRepository.findAllByUser(user.id)
+    }
+
+    @GetMapping("/{userId}/recommendations")
+    @ResponseBody
+    fun getRecommendation(@PathVariable userId: Int, @RequestParam moods: List<String>): Iterable<Song> {
+        print(moods)
+        return songRepository.findAll()
     }
 }
