@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException
 
 @Controller
 @RequestMapping("/users")
+@CrossOrigin("*") // TOOD: 프론트 배포된 환경에서만 허용하기
 class UserController {
 
     @Autowired
