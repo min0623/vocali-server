@@ -95,7 +95,7 @@ class UserController {
 
     @GetMapping("/{userId}/recommendations")
     @ResponseBody
-    fun getRecommendation(@PathVariable userId: Int, @RequestParam moods: List<String>): Iterable<Song> {
+    fun getRecommendation(@PathVariable userId: Int, @RequestParam(required = false) moods: List<String>): Iterable<Song> {
         print(moods)
         return songRepository.findAll()
     }
