@@ -13,8 +13,15 @@ import org.springframework.web.server.ResponseStatusException
 
 @Controller
 @RequestMapping("/users")
-@CrossOrigin("*") // TOOD: 프론트 배포된 환경에서만 허용하기
+// @CrossOrigin(origins = "http://localhost:3000") // TOOD: 프론트 배포된 환경에서만 허용하기
 class UserController {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("*");
+    }
 
     @Autowired
     private lateinit var userRepository: UserRepository
