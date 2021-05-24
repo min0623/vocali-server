@@ -28,6 +28,9 @@ class UserController {
     fun addNewUser(@RequestBody user: User): User {
         return User().apply {
             this.name = user.name
+            this.age = user.age
+            this.minPitch = user.minPitch
+            this.maxPitch = user.maxPitch
         }.run {
             userRepository.save(this)
         }
@@ -53,6 +56,7 @@ class UserController {
 
         request.run {
             name?.let { user.name = it }
+            age?.let { user.age = it }
             minPitch?.let { user.minPitch = it }
             maxPitch?.let { user.maxPitch = it }
         }
