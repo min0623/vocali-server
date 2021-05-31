@@ -18,4 +18,6 @@ class Song {
     var genre: String = ""
 
     var publishedYear: Int = 0
+
+    var songNum: Int = 0
 }
