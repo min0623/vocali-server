@@ -67,8 +67,8 @@ class UserController {
 
     @PostMapping("/songs")
     @ResponseBody
-    fun addSong(@RequestBody song: Song): String {
-        songRepository.save(song)
+    fun addSongs(@RequestBody songs: List<Song>): String {
+        songRepository.saveAll(songs)
         return "Success"
     }
 
