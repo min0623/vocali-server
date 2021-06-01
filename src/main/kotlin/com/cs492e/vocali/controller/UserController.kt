@@ -62,6 +62,9 @@ class UserController {
             age?.let { user.age = it }
             minPitch?.let { user.minPitch = it }
             maxPitch?.let { user.maxPitch = it }
+            pitchWeight?.let { user.pitchWeight = it }
+            moodWeight?.let { user.moodWeight = it }
+            prefWeight?.let { user.prefWeight = it }
         }
         userRepository.save(user)
 
