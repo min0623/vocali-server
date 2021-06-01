@@ -24,4 +24,14 @@ class User {
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     var selectedSongs: List<SelectedSong> = emptyList()
+
+    @ColumnDefault("0.5")
+    var pitchWeight = 0.5
+
+    @ColumnDefault("0.5")
+    var moodWeight = 0.5
+
+    @ColumnDefault("0.5")
+    var prefWeight = 0.5
+
 }

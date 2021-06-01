@@ -31,6 +31,9 @@ class UserController {
             this.age = user.age
             this.minPitch = user.minPitch
             this.maxPitch = user.maxPitch
+            this.pitchWeight = user.pitchWeight
+            this.moodWeight = user.moodWeight
+            this.prefWeight = user.prefWeight
         }.run {
             userRepository.save(this)
         }
@@ -99,8 +102,11 @@ class UserController {
 
     @GetMapping("/{userId}/recommendations")
     @ResponseBody
-    fun getRecommendation(@PathVariable userId: Int, @RequestParam(required = false) moods: List<String>): Iterable<Song> {
+    fun getRecommendation(
+        @PathVariable userId: Int,
+        @RequestParam(required = false) moods: List<String>,
+        @RequestParam(required = false, defaultValue = "5") per: Int): Iterable<Song> {
         print(moods)
-        return songRepository.findAll()
+        return songRepository.findAll().toList().subList(0, per)
     }
 }
