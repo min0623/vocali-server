@@ -19,7 +19,7 @@ import kotlin.math.min
 class UserController {
 
     companion object {
-        const val MODEL_URL = "http://d9fe52f8d2d0.ngrok.io"
+        const val MODEL_URL = "http://decd1da6c60a.ngrok.io"
     }
 
     @Autowired
