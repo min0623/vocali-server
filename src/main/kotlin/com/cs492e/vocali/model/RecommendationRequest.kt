@@ -6,6 +6,7 @@ data class RecommendationRequest(
     val pitchWeight: Float = 0.5f,
     val likeList: List<String> = emptyList(),
     val dislikeList: List<String> = emptyList(),
+    val undefinedList: List<String> = emptyList(),
     val minPitch: String = "",
     val maxPitch: String = "",
     val moods: List<String> = emptyList()

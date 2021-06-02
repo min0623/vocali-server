@@ -19,7 +19,7 @@ import kotlin.math.min
 class UserController {
 
     companion object {
-        const val MODEL_URL = "http://a45e5a6fdfa7.ngrok.io"
+        const val MODEL_URL = "http://78ad0ba635b9.ngrok.io"
     }
 
     @Autowired
@@ -125,6 +125,9 @@ class UserController {
                 .map { it.song?.id }
                 .requireNoNulls(),
             dislikeList = selectedSongs.filter { it.category == SelectedSong.Category.DISLIKE }
+                .map { it.song?.id }
+                .requireNoNulls(),
+            undefinedList = selectedSongs.filter { it.category == SelectedSong.Category.UNDEFINED }
                 .map { it.song?.id }
                 .requireNoNulls(),
             minPitch = user.minPitch,
