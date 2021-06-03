@@ -35,6 +35,6 @@ Defined controller for Spring Boot, which contains routers and actual connection
 
 `model` package contains database entity and remote request/response models.
 
-#### `/repository'
+#### `/repository`
 
 This package contains database repository interface.
