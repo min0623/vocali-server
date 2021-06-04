@@ -1,12 +1,14 @@
 package com.cs492e.vocali.controller
 
+import com.cs492e.vocali.DefaultProperties
 import com.cs492e.vocali.model.*
-import com.cs492e.vocali.repository.UserRepository
 import com.cs492e.vocali.repository.SelectedSongRepository
 import com.cs492e.vocali.repository.SongRepository
+import com.cs492e.vocali.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
@@ -14,12 +16,13 @@ import org.springframework.web.server.ResponseStatusException
 import kotlin.math.min
 
 @Controller
+@Component
 @RequestMapping("/users")
 @CrossOrigin("*") // TOOD: 프론트 배포된 환경에서만 허용하기
 class UserController {
 
     companion object {
-        const val MODEL_URL = "http://c68315e52536.ngrok.io"
+        const val MODEL_URL = "http://d256fce37b97.ngrok.io"
     }
 
     @Autowired
@@ -28,6 +31,8 @@ class UserController {
     private lateinit var selectedSongRepository: SelectedSongRepository
     @Autowired
     private lateinit var songRepository: SongRepository
+    @Autowired
+    private lateinit var properties: DefaultProperties
 
     @PostMapping
     @ResponseBody
