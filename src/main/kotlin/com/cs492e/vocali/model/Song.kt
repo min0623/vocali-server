@@ -1,5 +1,6 @@
 package com.cs492e.vocali.model
 
+import org.hibernate.annotations.ColumnDefault
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Table
@@ -18,4 +19,7 @@ class Song {
     var genre: String = ""
 
     var publishedYear: Int = 0
+
+    @ColumnDefault("0")
+    var songNum: Int = 0
 }

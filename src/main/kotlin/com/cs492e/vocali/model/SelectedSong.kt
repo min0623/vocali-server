@@ -10,7 +10,7 @@ import javax.persistence.*
 class SelectedSong {
 
     enum class Category {
-        LIKE, DISLIKE;
+        LIKE, DISLIKE, UNDEFINED;
 
         companion object {
 
@@ -18,7 +18,7 @@ class SelectedSong {
                 return try {
                     valueOf(value.toUpperCase())
                 } catch (e: Exception) {
-                    LIKE
+                    UNDEFINED
                 }
             }
         }
